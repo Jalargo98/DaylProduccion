@@ -1,0 +1,82 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block head %}
+{% endblock head %}
+{% block title %}
+  {{producto.nombre}}
+{% endblock title %}
+{% block content %}
+    <div class="ui grid container nuevo-container" style="margin-top:5rem!important; margin-bottom: 20px!important;">
+        <div class="eight wide column stackable">
+          <div class="row img"><img id="producto-imagen" src="{% primera_imagen producto %}" alt=""></div>
+        </div>
+        <div class="eight wide column stackable">
+        <div class="row"><h1>{{producto.nombre}}</h1></div>
+        <div class="row"><h2>
+            {% if producto.oferta <= 0 %}
+            <span class="discounted-price">${% calcular_precio_iva producto %}</span>
+            {% else %}
+            <span class="original-price">${% calcular_precio_iva producto %}</span>
+            <span class="discounted-price">${% calcular_precio_oferta_iva producto.precio producto.porcentaje_iva producto.oferta %}</span><br>
+            {% endif %}
+            <span>IVA INCLUIDO</span>
+        </h2></div>
+        <div class="row"><p>{{producto.descripcion}}</p></div>
+        {% if producto.color_set.all|length > 1 %}
+        <div class="row">
+            <div class="ui grid container">
+                <div class="two wide column"><p>Color</p></div>
+                <div class="fourteen wide column">
+
+                    <select name="Colores" id="colores-select" class="ui fluid dropdown">
+                        {% for color in producto.color_set.all %}
+                        {% if forloop == 1 %}
+                        <option value="{{color.id}}" class="item" selected>{{color.color}}</option>
+                        {% endif %}
+                        <option value="{{color.id}}" class="item">{{color.color}}</option>
+                        {% endfor %}
+                    </select>
+                   
+                </div>
+            </div>
+        </div>
+        {% else %}
+            <div style="display: none;">
+                <select name="Colores" id="colores-select" class="ui fluid dropdown">
+                    {% for color in producto.color_set.all %}
+                    {% if forloop == 1 %}
+                    <option value="{{color.id}}" class="item" selected">{{color.color}}</option>
+                    {% endif %}
+                    <option value="{{color.id}}" class="item">{{color.color}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        {% endif %}
+          <div class="row">
+            <div class="ui grid container stackable">
+                <div class="seven wide column">
+                    <div class="ui action input">
+                        <button class="ui icon button decrease-btn" id="substract_button"><i class="minus icon"></i></button>
+                        <input type="number" class="ui input focus" id="quantity-input" min="1" max="0" value="1"></input>
+                        <button class="ui icon button increase-btn" id="sum_button"><i class="plus icon"></i></button>
+                    </div>
+                </div>
+                <div class="nine wide column">
+                    <a id="agregar-carrito" producto-id="{{ producto.id }}" href="{% url 'buycar:agregar' producto.id producto|imagen_id 1 %}"><button class="ui icon primary basic button"><i class="icon shop"></i><span class="Text">AGREGAR AL CARRITO</span></button></a>
+                </div>
+            </div>
+          </div>
+          <div class="row"><br>
+              <div><span><strong>Categoria:</strong> {{producto.subcategoria.categoria.nombre}}</div><br>
+              <div><span><strong>Subcategoria:</strong> {{producto.subcategoria.nombre}}</div>
+              <div class="Cantidad_actualizada_ajax" id="Cantidad_actualizada_ajax" data-producto-cantidad="{% imagen_carrito producto %}"><span><strong>Cantidad:</strong>{% imagen_carrito producto %}</div>
+        </div>
+    </div>
+    <select name="" id="product_id" style="display: none;">
+        <option value="{{producto.id}}" selected></option>
+    </select>
+{% endblock content %}
+{% block script %}
+  <script src="{% static 'js/producto.js' %}"></script>
+{% endblock script %}

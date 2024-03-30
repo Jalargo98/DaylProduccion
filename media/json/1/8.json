@@ -1,0 +1,8 @@
+{"2_5":
+ {"producto_id": 2, "nombre": "prueba", "iva": 16, "oferta": 11, "precio": 10000, "cantidad": 1, "valor": 10324, "acumulado": 10324, "color_id": 5, "imagen": "/media/imagen/productos/50df718e3d984532b2cb58569c24ac0f.jpg"}, 
+
+"3_6":
+ {"producto_id": 3, "nombre": "prueba2", "iva": 16, "oferta": 11, "precio": 10000, "cantidad": 1, "valor": 10324, "acumulado": 10324, "color_id": 6, "imagen": "/media/imagen/productos/917c5f661fec4b43a2ad64fa02357fcb.jpg"}, 
+
+"4_7": 
+{"producto_id": 4, "nombre": "prueba3", "iva": 16, "oferta": 11, "precio": 10000, "cantidad": 1, "valor": 10324, "acumulado": 10324, "color_id": 7, "imagen": "/media/imagen/productos/3c28e681984d4227861a2ab6797a0299.jpg"}}

@@ -1,0 +1,65 @@
+{% extends "admin/layouts/partials/base.html" %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'admin/css/tablas_fac.css' %}">
+{% endblock head %}
+
+{% block container %}
+  
+<div class="table-container" id="contenedor_colores">
+  
+    <table>
+      <thead>
+        {% if user.is_superuser %}
+        <tr>
+          <th>id</th>
+          <th>Fecha de compra</th>
+          <th>Fecha de vencimiento</th>
+          <th>Total</th>
+          <th>Cliente</th>
+          <th>Metodo pago</th>
+          <th>Ver factura</th>
+        </tr>
+        {% else %}
+        <tr>
+          <th>id</th>
+          <th>Fecha de compra</th>
+          <th>Fecha de vencimiento</th>
+          <th>Total</th>
+          <th>Metodo pago</th>
+          <th>Ver factura</th>
+        </tr>
+        {% endif %} 
+        
+      </thead>
+      {% if facturas %}
+      <tbody>
+        {% if user.is_superuser %} 
+          {% for f in facturas %}
+          <tr class="productos_tabla" >
+              <td>{{ f.id }}</td>
+              <td>{{ f.fecha_factura }}</td>
+              <td>{{ f.fecha_vencimiento }}</td>
+              <td>{{ f.total }}</td>
+              <td>{{ f.cliente_id }}</td>
+              <td>{{ f.metodo_pago_id }}</td>
+              <td><a href="{% url 'factura:verfactura' f.id %}" ><i class="file pdf outline icon"></i></a></td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          {% for f in facturas %}
+            <tr class="productos_tabla" >
+              <td>{{ f.id }}</td>
+              <td>{{ f.fecha_factura }}</td>
+              <td>{{ f.fecha_vencimiento }}</td>
+              <td>{{ f.total }}</td>
+              <td>{{ f.metodo_pago_id }}</td>
+              <td><a href="{% url 'factura:verfactura' f.id %}" ><i class="file pdf outline icon"></i></a></td>
+            </tr>
+          {% endfor %}
+        {% endif %}
+      </tbody>
+      {% endif %}
+    </table>
+</div>
+{% endblock container %}

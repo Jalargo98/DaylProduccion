@@ -1,0 +1,135 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}
+  Carro general
+{% endblock title %}
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/prueba.css' %}">
+
+{% endblock head %}
+{% block content %}
+{% if request.session.carrito.items %}
+        <div class="ui grid container" id="contenedor-car-general">
+            <div class="row blue">
+                <div class="six wide column"><h3 class="letra-bold">PRODUCTO</h3></div>
+                <div class="two wide column"><h3 class="letra-bold">PRECIO UNITARIO</h3></div>
+                <div class="four wide column"><h3 class="letra-bold">CANTIDAD</h3></div>
+                <div class="four wide column"><h3 class="letra-bold">SUBTOTAL</h3></div>
+            </div>
+        
+            {% for key,value in request.session.carrito.items %}
+                <div class="row" data-producto-id="{{value.producto_id}}">
+                    <div class="one wide column">
+                        <a href="{% url 'buycar:eliminar_producto' value.producto_id value.color_id %}"><button class="circular ui icon button">
+                            <i class="close icon"></i>
+                        </button></a>
+                    </div>
+                    <div class="two wide column">
+                        <img src="{{value.imagen}}" alt="" srcset="" style="max-width: 100%;max-height: 100px;">
+                    </div>
+                    <div class="three wide column">
+                        <h4>{{ value.nombre|capitalice }}</h4>
+                    </div>
+                    <div class="two wide column" id="valor_unitario_{{value.producto_id}}">
+                        <h4>${{value.valor}}</h4>
+                    </div>
+                    <div class="four wide column">
+                        <div class="ui action input" data-producto-id="{{value.color_id}}">
+                            <button id="gen-decrease-{{value.color_id}}" class="ui icon button increase-btn"><i class="minus icon"></i></button>
+                            <input type="number" data-producto-id="{{value.producto_id}}" class="ui input focus" id="gen-{{value.color_id}}" min="0" max="0" value="{{value.cantidad}}">
+                            <button id="gen-increase-{{value.color_id}}" class="ui icon button increase-btn"><i class="plus icon"></i></button>
+                            <p data-producto-id="{{ value.iva }}" class="iva-general" style="display: none;">IVA: {{ value.iva }}</p>
+                            <p data-producto-id="{{ value.acumulado }}" class="acumulado-general" id="acumulado-general-{{value.color_id}}" style="display: none;">Acumulado: {{ value.precio }}</p>
+                        </div>
+                    </div>
+                    <div class="four wide column" id="acumulado_producto_{{value.color_id}}">
+                        <h4>${{value.acumulado}}</h4>
+                    </div>
+    
+                </div>
+            {% endfor %}
+    </div>
+    {% else %}
+    <div class="ui grid container" id="contenedor-car-general">
+        <div class="row blue">
+            <div class="sixteen wide column">
+                <h3 class="letra-bold">No hay productos en el carrito</h3>
+            </div>
+        </div>
+    </div>
+    
+{% endif %}
+    {% if request.session.carrito.items %}
+    <div class="ui grid container padre" id="contenedor-car-responsive-padre">
+      {% for key, value in request.session.carrito.items %}
+      <div class="row elementos" data-producto-id="{{value.producto_id}}"></div>
+        <div class="ui grid container" id="contenedor-car-responsive">
+            <div class="row imagen">
+                <img src="{{value.imagen}}" alt="" >
+            </div>
+            <div class="row elementos">
+                <div class="four wide column izq"><h3>Producto:</h3></div>
+                <div class="twelve wide column dere"><h3>{{value.nombre}}</h3></div>
+            </div>
+            <div class="row elementos">
+                <div class="four wide column izq"><h3>Precio Unitario</h3></div>
+                <div class="twelve wide column dere"><h3>${{value.valor}}</h3></div>
+            </div>
+            <div class="row elementos">
+                <div class="eight wide column izq"><h3>Subtotal</h3></div>
+                <div class="eight wide column dere"><h3>${{value.acumulado}}</h3></div>
+            </div>
+            <div class="row elementos">
+                <div class="ten wide column izq">
+                    <div class="ui action input" data-producto-id="{{value.color_id}}">
+                        <button id="res-decrease-{{value.color_id}}" class="ui icon button decrease-btn"><i class="minus icon"></i></button>
+                        <input type="number" data-producto-id="{{value.producto_id}}" class="ui input focus" id="res-{{value.color_id}}" min="0" max="0" value="{{value.cantidad}}"></input>
+                        <button id="res-increase-{{value.color_id}}" class="ui icon button increase-btn"><i class="plus icon"></i></button>
+                        <p data-producto-id="{{ value.iva }}" class="iva-general">IVA: {{ value.iva }}</p>
+                        <p data-producto-id="{{ value.acumulado }}" class="acumulado-general">Acumulado: {{ value.acumulado }}</p>
+                    </div>
+                </div>
+                <div class="six wide column dere">
+                    <a href="#"><button class="circular ui icon button">
+                        <i class="close icon"></i>
+                    </button></a>
+                </div>
+            </div>
+
+        </div>
+      {% endfor %}
+    </div>
+    <div class="contenedor sub carrito general">
+        <table class="ui unstackable celled table summary-table">
+            <tbody>
+                <tr>
+                    <td class="total-carrito letra-bold" style="text-align: center;" colspan="3">TOTAL CARRITO DE COMPRAS</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: left;" class="letra-bold" id="subtotal-car-general">SUBTOTAL:</td>
+                    <td class="subtotal-value letra">{{ subtotal }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: left;" class="letra-bold">IVA:</td>
+                    <td class="shipping-value letra">{{ iva }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: left;" class="letra-bold">TOTAL:</td>
+                    <td class="total-value letra">{{ total_carrito }}</td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="text-align: center;">
+                        <div class="finish-button">
+                            <a href="{% url 'factura:detalle_compra' %}"><button class="ui primary button" style="width: 60%; margin: 0 auto;">Finalizar Compra</button></a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+{% endblock content %}
+{% block script %}
+<script src="{% static 'js/generalcar.js' %}"></script>
+{% endblock script %}

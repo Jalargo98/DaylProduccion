@@ -1,0 +1,131 @@
+{% load static %}
+{% load custom_filters %}
+<div class="nav-superior">
+    <div class="logo">
+        <a href="{% url 'index' %}"><img src="{% static 'img/logo dayl.png' %}" alt="Logo"></a>
+    </div>
+    <div class="busc-btn">
+        <div class="search-bar">
+            <input type="text" placeholder="Buscar..." class="buscar">
+            <button class="search-button">Buscar</button>
+        </div>
+        <div class="user-buttons">
+            {% if user.is_authenticated %}
+            {% if user.is_superuser %}
+            <div class="ui right pointing dropdown left-margin">
+                <span class="user redirect">{{ user.username|first_letter }}</span>
+                <div class="menu" style="z-index: 50;">
+                    <a href="{% url 'cliente:config' %}" class="floating labeled icon item"><i class="cog icon"></i>Configuracion</a>
+                    <a href="{% url 'admin:index' %}" class="floating labeled icon item"><i
+                            class="wrench icon"></i>Administracion</a>
+                    <a href="{% url 'cliente:logout' %}" class="floating labeled icon item"><i
+                            class="user times icon"></i>Desconectar</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="ui right pointing dropdown left-margin">
+                <span class="user redirect">{{ user.username|first_letter }}</span>
+                <div class="menu" style="z-index: 50;">
+                    <a class="floating labeled icon item" href="{% url 'cliente:config' %}"><i class="cog icon"></i>Configuracion</a>
+                    <a href="{% url 'cliente:logout' %}" class="floating labeled icon item"><i
+                            class="user times icon"></i>Desconectar</a>
+                </div>
+            </div>
+            {% endif %}
+            {% else %}
+            <button class="blue-button out" id="login-btn"><a href="#">Iniciar sesión</a></button>
+            <!--aca va el hipervinculo para el registro-->
+            <button class="blue-button" id="registro-btn"><a href="#">Registro</a></button>
+            <!--aca va el hipervinculo para el registro-->
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<header class="header-menu">
+
+    <input type="checkbox" id="toggle">
+    <label for="toggle"><img src="{% static 'assets/menu.svg' %}" alt="menu" class="logo"></label>
+
+    <nav class="navegation">
+        <ul>
+            {% for categoria in categorias %}
+            <li>
+                <a href="{% url 'product:categorias' categoria %}">{{categoria.nombre|upper}}</a>
+                <ul>
+                    {% for subcategoria in subcategorias %}
+                    {% if subcategoria.categoria == categoria %}
+                    <li><a
+                            href="{% url 'product:categorias' categoria subcategoria.nombre %}">{{subcategoria.nombre|upper}}</a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+            <li><a href="#" class="uno">NUESTRA EMPRESA</a></li>
+            <li><a href="#" class="2" id="dos">PREGUNTAS FRECUENTES</a></li>
+            <li class="search-bar" id="ocultar">
+                <input type="text" placeholder="Buscar..." class="buscar">
+                <button class="search-button">Buscar</button>
+            </li>
+            <!--aqui empieza el carrito de compra-->
+            <li>
+
+                <div class="cart-icon-custom">
+                    <a href="{% url 'buycar:carindex' %}">
+                        <i class="shopping cart icon"></i></a>
+                    <ul class="dropdown-content">
+                        <div class="ui grid container" style="color: #000;">
+                            <!--Aqui comienza la creación de productos para el carrito del menu-->
+                            <!--Primer producto-->
+                            {% if request.session.carrito.items %}
+                            {% for key,value in request.session.carrito.items %}
+                            <div class="row">
+                                <div class="three wide column">
+                                    <img src="{{value.imagen}}" class="logo" class="carrito compras miniatura">
+                                </div>
+                                <div class="eleven wide column">
+                                    <div class="row">
+                                        <h1>{{value.nombre}}</h1>
+                                    </div>
+                                    <div class="row">
+                                        <h3>${{value.acumulado}}x<p>{{value.cantidad}}</p>
+                                        </h3>
+                                    </div>
+                                </div>
+                                <div class="two wide column">
+                                    <a href="{% url 'buycar:eliminar_producto' value.producto_id value.color_id %}"><button
+                                            class="circular ui icon button">
+                                            <i class="close icon"></i>
+                                        </button></a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                            <!--Fin del primer producto-->
+                            <div class="row carrito-menu-subtotal">
+                                <div class="three wide column"></div>
+                                <div class="five wide column">
+                                    <p>Subtotal:</p>
+                                </div>
+                                <div class="eight wide column">
+                                    <p>${{total_carrito}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="three wide column"></div>
+                                <div class="five wide column">
+                                    <a href="{% url 'buycar:vaciar_carrito' %}">
+                                        <button class="ui icon button"><i class="icon trash"></i></button>
+                                    </a></div>
+                                <div class="five wide column"></div>
+                                <div class="three wide column"></div>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</header>

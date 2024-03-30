@@ -1,0 +1,17 @@
+{% load static %}
+{% load custom_filters %}
+<div class="contenedor">    
+    <div class="gallery">
+      {% for categoria in categorias %}
+      <div class="content-productos product-container oculto">
+        <img src="{{categoria.imagen.url}}" alt="{{categoria.nombre}}">
+        {% for subcat in subcategorias %}
+        {% if subcat.categoria == categoria %}
+        <h3><a href="{% url 'product:categorias' categoria.nombre subcat.nombre %}">{{subcat.nombre}}</a></h3>{% endif %}
+        {% endfor %}
+        <a href="{% url 'product:categorias' categoria.nombre %}" class="buy-1 btn-vermas">Ver Más</a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+<script src="{% static 'js/productos.js' %}"></script>

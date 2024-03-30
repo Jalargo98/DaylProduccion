@@ -1,0 +1,91 @@
+{% extends "admin/layouts/partials/base.html" %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'admin/css/tablas_pro.css' %}">
+{% endblock head %}
+{% block container %}
+
+<div class="table-container" id="contenedor_proveedor">
+    <table>
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>Ciudad</th>
+          <th>Nombre Completo</th>
+          <th>Nit</th>
+          <th>Correo Electronico</th>
+          <th>Telefono</th>
+          <th>Dirección</th>
+          <th>Editar o borrar</th>
+        </tr>
+      </thead>
+      {% if proveedores %}
+      <tbody>
+        {% for proveedor in proveedores %}
+        <tr class="proveedor_tabla" data-proveedor-id="{{ proveedor.id }}">
+            <td>{{ proveedor.id }}</td>
+            <td>{{ proveedor.ciudad }}</td>
+            <td>{{ proveedor.nombre_completo }}</td>
+            <td>{{ proveedor.nit }}</td>
+            <td>{{ proveedor.correo_electronico }}</td>
+            <td>{{ proveedor.telefono }}</td>
+            <td>{{ proveedor.direccion }}</td>
+            <td><i class="pencil alternate icon"></i><a href="{% url 'admin:proveedor_eliminar' proveedor.id %}"><i class="trash icon"></i></a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      {% endif %}
+    </table>
+</div>
+<div id="boton_registro_proveedor">
+    <button id="registro_proveedor" class="ui blue button">Registrar proveedor</button>
+</div>
+
+<div id="proveedor-form" class="form-container" style="display: none;">
+    <form class="ui form" method="POST" action="{% url 'admin:proveedor_registro' %}">
+        {% csrf_token %}
+        <h2 class="ui header">Proveedor</h2>
+        <hr>
+        <div class="field">
+            <div class="field">
+                <div class="two fields">
+                    <div class="field">
+                        <label>Nombre</label>
+                        <input type="text" name="nombre_completo" placeholder="Nombre" class="nombre" required>
+                    </div>
+                    <div class="field">
+                        <label for="">Nit</label>
+                        <input type="text" name="nit" required>
+                    </div>
+                </div>
+            </div>
+            <div class="two fields">
+                <div class="field">
+                    <label>Ciudad</label>
+                    <input type="text" name="ciudad" required>
+                </div>
+                <div class="field">
+                    <label>Direccion</label>
+                    <input type="text" name="direccion" required>
+                </div>
+            </div>
+            <div class="two fields">
+                <div class="field">
+                    <label>Correo Electronico</label>
+                    <input type="email" name="correo_electronico" required>
+                </div>
+                <div class="field">
+                    <label>Telefono</label>
+                    <input type="number" name="telefono" required>
+                </div>
+            </div>
+            <div>
+                <button class="ui blue button" type="submit">Guardar</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock container %}
+{% block script %}
+  <script src="{% static 'admin/js/proveedor.js' %}"></script>
+{% endblock script %}

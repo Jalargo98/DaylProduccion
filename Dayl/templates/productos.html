@@ -1,0 +1,22 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}{% if subcategoria is not None %}{{ subcategoria}}
+{% else %}{{categoria}}{% endif %}{% endblock title %}
+{% block content %}
+<div class="container-titulo">
+    <div class="subcat-container">
+      <div class="subcat-name">{% if subcategoria %}{{ subcategoria }}{% else %}{{ categoria }}{% endif %}</div>
+      <i class="icon home home-icon"></i>
+      <div class="breadcrumb">
+        <a href="{% url 'index' %}">Home</a>
+        <i class="right angle icon"></i>
+        <a href="{% url 'product:categorias' categoria %}">{{ categoria }}</a>
+        {% if subcategoria %}
+        <i class="right angle icon"></i>
+        <a href="{% url 'product:categorias' categoria subcategoria %}">{{ subcategoria }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% include "layouts/parcials/cards.html" %}
+{% endblock content %}

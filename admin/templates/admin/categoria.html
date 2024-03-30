@@ -1,0 +1,66 @@
+{% extends "admin/layouts/partials/base.html" %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'admin/css/tablas_ca.css' %}">
+{% endblock head %}
+{% block container %}
+
+<div class="table-container" id="contenedor_colores">
+    <table>
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>Nombre</th>
+          <th>Imagen</th>
+          <th>Editar o borrar</th>
+        </tr>
+      </thead>
+      {% if categorias %}
+      <tbody>
+        {% for categoria in categorias %}
+        <tr class="productos_tabla" data-categoria-id="{{ categoria.id }}">
+            <td>{{ categoria.id }}</td>
+            <td>{{ categoria.nombre }}</td>
+            <td><img src="{{ categoria.imagen.url }}" alt="" style="max-width: 30px;max-height: 30px;"></td>
+            <td><a href="{% url 'admin:editar_categoria' categoria.id %}"></a><i class="pencil alternate icon"></i><a href="{% url 'admin:categoria_eliminar' categoria.id %}"><i class="trash icon"></i></a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      {% endif %}
+    </table>
+</div>
+<div id="boton_registro_producto">
+    <button id="registro_producto" class="ui blue button">Registrar categoria</button>
+</div>
+
+<div class="form-container" id="categoria_form" style="display: none;">
+    <form class="ui form" enctype="multipart/form-data" action="{% url 'admin:categoria_registro' %}" method="POST">
+        {% csrf_token %}
+        <h2 class="ui header">Categoria</h2>
+        <hr>
+            <div class="field centrado">
+                <label for="">Imagen</label>
+                <div class="contenedor imagens">
+                    <div class="imagens" id="disparador-input">
+                        <img src="{% static 'admin/img/plus_img.png' %}" alt="" id="img_preview">
+                    </div>
+                </div>
+                <input type="file" name="imagen2" id="id_imagen" style="display: none;">
+            </div>
+            <div class="field">
+                <label>Nombre</label>
+                <input type="text" name="nombre" placeholder="Nombre" required oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="30">
+            </div> 
+        <div class="field">
+            <input type="text" name="imagen" id="id_imagen_texto" style="display: none;"required>
+        </div>
+            <div>
+                <button class="ui black button" type="submit">Guardar</button>  
+            </div>
+    </form>
+    
+</div>
+{% endblock container %}
+{% block script %}
+  <script src="{% static 'admin/js/categoria.js' %}"></script>
+{% endblock script %}

@@ -1,0 +1,30 @@
+{% load static %}
+{% load custom_filters %}
+<div class="gallery">
+    {% if productos %}
+    {% for categoria in categorias %}
+    {% for producto in productos|productos_categoria:categoria.nombre %}
+    {% if forloop.counter <= 3 %} <div class="content-productos product-container">
+        <img src="{% primera_imagen producto %}" alt="Imagen del producto">
+        <h3>{{producto.nombre}}</h3> <!--nombre de los productos-->
+        <p>{{producto.descripcion}}</p> <!--descripcion de los productos-->
+        <div class="price-cart-container">
+            <div class="price-container">
+                <h4>${% calcular_precio_oferta_iva producto.precio producto.porcentaje_iva producto.oferta %}</h4>
+                <!--precio de los productos-->
+            </div>
+            <a href="{% url 'buycar:agregar' producto.id producto|imagen_id 1 %}">
+                <div class="cart-icon"><i class="shopping cart icon"></i></div>
+            </a>
+        </div>
+        <a href="{% url 'product:producto' nombre_producto=producto.nombre id=producto.id %}"
+            class="buy-1 btn-vermas">Ver Más</a> <!--link para dirigir a otra pagina-->
+</div>
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% else %}
+<h1>No existen productos vaya a comer monda.</h1>
+{% endif %}
+
+<script src="{% static 'js/productos.js' %}"></script>

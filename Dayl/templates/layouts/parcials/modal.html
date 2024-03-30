@@ -1,0 +1,24 @@
+<div class="ui modal registro-modal" style="max-height: 80vh; overflow-y: auto;">
+    <div class="header modal">
+        Datos
+        <i class="close icon" style="float: right;"></i>
+    </div>
+    <div id="registro-content" class="content">
+        <p>Cargando formulario...</p>
+    </div>
+    <div class="footer modal">
+        <div class="user-buttons">
+            <button id="inicio-btn" class="ui blue button">Iniciar sesión</button>
+        </div>
+        <div class="user-buttons">
+            <button class="ui red button" id="registro-button derecha">Registro</button>
+        </div>
+        <div class="field">
+            <ul>
+                {% for message in messages %}
+                <li>{{message|safe}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,108 @@
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'admin/css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'admin/css/semantic.css' %}">
+  {% block head %}
+  {% endblock head %}
+  <title>Menu_configuraciones</title>
+</head>
+
+<body style="background-color: white;">
+  <div class="contenedor-configuracion">
+    <div class="menu-izq" id="menu-izquierda">
+      <div style="align-self: end;"><i class="close icon" id="close-menu-izq"></i></div>
+      <div>
+        <img src="{% static 'admin/img/logo dayl.png' %}" id="logo" alt="">
+       
+        {% if user.is_superuser %} 
+        <ul>
+          <a href="{% url 'admin:index' %}"><li {% if url == 'inicio'  %}class="activo"{% endif %}><i class="icon home"></i><span class="ocultar responsive-span">INICIO</span></li></a> 
+          <a href="{% url 'admin:proveedor' %}"><li {% if url == 'proveedor'  %}class="activo"{% endif %}><i class="users icon"></i><span class="ocultar responsive-span">PROVEEDORES</span></li></a>
+          <a href="{% url 'admin:categoria' %}"><li {% if url == 'categoria'  %}class="activo"{% endif %}><i class="icon boxes"></i><span class="ocultar responsive-span">CATEGORIAS</span></li></a>
+          <a href="{% url 'admin:subcategoria' %}"><li {% if url == 'subcategoria'  %}class="activo"{% endif %}><i class="icon buromobelexperte"></i><span class="ocultar responsive-span">SUBCATEGORIAS</span></li></a>
+          <a href="{% url 'admin:producto' %}"><li {% if url == 'producto'  %}class="activo"{% endif %}><i class="icon dropbox"></i><span class="ocultar responsive-span">PRODUCTOS</span></li></a>
+          <a href="{% url 'admin:color' %}"><li {% if url == 'color'  %}class="activo"{% endif %}><i class="icon paint brush"></i><span class="ocultar responsive-span">P. COLOR</span></li></a>
+          <a href="{% url 'factura:mostrar-factura' %}"><li {% if url == 'factura'  %}class="activo"{% endif %}><i class="file pdf outline icon"></i><span class="ocultar responsive-span">FACTURA DE LOS CLIENTES</span></li></a>
+          <a href="{% url 'cliente:config' %}"><li {% if url == 'configuracion'  %}class="activo"{% endif %}><i class="cogs icon"></i><span class="ocultar responsive-span">CONFIGURACION PERFIL</span></li></a>
+        </ul>
+        {% else %}
+          <ul>
+            <a href="{% url 'factura:mostrar-factura' %}"><li {% if url == 'factura'  %}class="activo"{% endif %}><i class="icon boxes"></i><span class="ocultar responsive-span">VER FACTURAS</span></li></a>
+            <a href="{% url 'cliente:config' %}"><li {% if url == 'configuracion'  %}class="activo"{% endif %}><i class="cogs icon"></i><span class="ocultar responsive-span">CONFIGURACION PERFIL</span></li></a>
+          </ul>
+       {% endif %}
+        
+      </div>
+      <a href=""><div class="salida"><i class="sign-out icon"></i><span class="ocultar">logout</span></div></a>
+    </div>
+    <div class="contenido-central">
+      <div class="menu-centro iu container">
+        <div id="icon-izquierdo"><i class="bars icon" style="font-size: 20px;"></i></div>
+        <div class="fixed-search">
+          <div class="ui fluid multiple search selection dropdown" id="selectFilters" style="z-index: 5;">
+            <input type="hidden" name="country">
+            <i class="dropdown icon"></i>
+            <div class="default text">Filters</div>
+            <div class="menu">      
+            <div class="item" data-value="color">Color</div>
+            <div class="item" data-value="subcategoria">Subcategoria</div>
+            <div class="item" data-value="proveedor">Proveedores</div>
+          </div>
+          </div>
+          <div class="ui icon input">
+            <i class="search icon"></i>
+            <input type="text" placeholder="Search..." id="searchFilters">
+          </div>
+        </div>
+
+        {# select para las busquedas#}
+        
+
+        {% if user.is_authenticated %}
+            {% if user.is_superuser %}
+            <div class="ui right pointing dropdown">
+                <span class="user redirect">{{ user.username|first_letter }}</span>
+                <div class="menu" style="z-index: 50;">
+                    <a class="floating labeled icon item"><i class="cog icon"></i>Configuracion</a>
+                    <a href="{% url 'admin:index' %}" class="floating labeled icon item"><i
+                            class="wrench icon"></i>Administracion</a>
+                    <a href="{% url 'cliente:logout' %}" class="floating labeled icon item"><i
+                            class="user times icon"></i>Desconectar</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="ui right pointing dropdown">
+                <span class="user redirect">{{ user.username|first_letter }}</span>
+                <div class="menu" style="z-index: 50;">
+                    <a class="floating labeled icon item"><i class="cog icon"></i>Configuracion</a>
+                    <a href="{% url 'cliente:logout' %}" class="floating labeled icon item"><i
+                            class="user times icon"></i>Desconectar</a>
+                </div>
+            </div>
+            {% endif %}
+        {% endif %}
+      </div>
+    {% block container %}
+        
+    {% endblock container %}
+    </div>
+  </div>
+</body>
+<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+<script src="{% static 'js/semantic.js' %}"></script>
+<script src="{% static 'admin/js/alertas.js' %}"></script>
+<script src="{% static 'admin/js/menu-configuracion.js' %}"></script>
+<script src="{% static 'admin/node_modules/axios/dist/axios.js' %}"></script>
+<script>
+    $('.ui.dropdown')
+        .dropdown();
+</script>
+{% block script %}
+{% endblock script %}
+</html>

@@ -1,0 +1,89 @@
+{% extends "admin/layouts/partials/base.html" %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'admin/css/tablas_c.css' %}">
+{% endblock head %}
+
+{% block container %}
+
+<div class="table-container" id="contenedor_colores">
+    <table>
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>Imagen</th>
+          <th>Color</th>
+          <th>Stock</th>
+          <th>Producto</th>
+          <th>Editar o borrar</th>
+        </tr>
+      </thead>
+      {% if colores %}
+      <tbody>
+        {% for color in colores %}
+        <tr class="productos_tabla" data-color-id="{{ color.id }}">
+            <td>{{ color.id }}</td>
+            <td><img src="{{ color.imagen.url }}" alt="" style="max-width: 30px;max-height: 30px;"></td>
+            <td>{{ color.color }}</td>
+            <td>{{ color.stock }}</td>
+            <td>{{ color.producto.nombre }}</td>
+            <td><i class="pencil alternate icon"></i><a href="{% url 'admin:color_eliminar' color.id %}"><i class="trash icon"></i></a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      {% endif %}
+    </table>
+</div>
+<div id="boton_registro_producto">
+    <button id="registro_producto" class="ui blue button">Registrar color</button>
+</div>
+
+<div class="form-container" id="color_form" style="display: none;">
+    <form class="ui form" enctype="multipart/form-data" action="{% url 'admin:color_registro' %}" method="POST">
+        {% csrf_token %}
+        <h2 class="ui header">Color</h2>
+        <div class="field centrado">
+            <label for="">Imagen</label>
+            <div class="contenedor imagens">
+                <div class="imagens" id="disparador-input">
+                    <img src="{% static 'admin/img/plus_img.png' %}" alt="" id="img_preview">
+                </div>
+            </div>
+            <input type="file" name="imagen2" id="id_imagen" style="display: none;">
+        </div>
+        <div class="two fields">
+            <div class="field">
+                <label>Color</label>
+                <input type="text" name="color" placeholder="Nombre" required
+                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                    maxlength="26">
+            </div>
+            <div class="field">
+                <label>Stock</label>
+                <input type="number" name="stock" placeholder="Stock" required
+                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                    maxlength="200">
+            </div>
+        </div>
+        <div class="field">
+            <label>Producto</label>
+            <select class="ui dropdown" name="producto" required>
+                <option value="" disabled selected>Selecciona la subcategoria</option>
+                {% for producto in productos %}
+                <option value="{{ producto.id }}">{{ producto.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="field">
+            <input type="text" name="imagen" id="id_imagen_texto" style="display: none;"required>
+        </div>
+        <div>
+            <button class="ui blue button" type="submit">Guardar</button>
+        </div>
+    </form>
+</div>
+<br>
+{% endblock container %}
+{% block script %}
+  <script src="{% static 'admin/js/color.js' %}"></script>
+{% endblock script %}

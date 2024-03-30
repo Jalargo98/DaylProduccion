@@ -1,0 +1,157 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    height: 100vh;
+    background-color: 	#F0F8FF;
+    color: #fff;
+}
+
+header {
+    background-color: #87CEEB;
+}
+
+.nav-superior {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+}
+
+.logo img {
+    width: 120px;
+    height: 60px;
+}
+
+.busc-btn {
+    display: flex;
+    align-items: center;
+}
+
+.user-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.user-buttons button {
+    color: #fff;
+    background-color: #87CEFA;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    border: 1px solid #000;
+    border-radius: 4px;
+    padding: 2px;
+}
+
+.search-bar input {
+    padding: 6px 10px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+.search-bar button {
+    margin-left: 10px;
+    color: #fff;
+    background-color: #87CEFA;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.menu-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 100;
+}
+
+.cont-ul {
+    display: flex;
+    align-items: center;
+    list-style: none;
+}
+
+.menu-container li {
+    cursor: pointer;
+    padding: 1.5vw;
+    transition: all .3s ease 0s;
+}
+
+li:hover {
+    background-color: #87CEEB;
+}
+
+.develop {
+    position: relative;
+}
+
+.ul-second {
+    display: none;
+    position: absolute;
+    margin-top: 1.5vw;
+}
+
+.ul-second > li {
+    width: 135px;
+    transform: translateX(-20px);
+    border-bottom: solid 1px #87CEEB;
+    text-align: center;
+    background-color: #87CEEB;
+}
+
+.ul-second > li:hover {
+    background-color: #24252a;
+}
+
+.develop:hover > .ul-second {
+    display: block;
+}
+
+.ul-third {
+    position: absolute;
+    transform: translateX(100%);
+    right: 0;
+    top: 40%;
+    display: none;
+    background-color: #24252a;
+}
+
+.ul-third > li {
+    padding: 1.5vw;
+    border-bottom: solid 1px #fff;
+}
+
+.front:hover > .ul-third {
+    display: block;
+}
+
+.cart-icon {
+    font-size: 1vw;
+}
+
+a{
+    color: #fff;
+}
+
+@media (max-width: 900px) {
+    .logo {
+        display: none;
+    }
+}
+
+

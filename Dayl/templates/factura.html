@@ -1,0 +1,381 @@
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+                /* factura.css */
+
+        .factura {
+            width: 700px;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 8px auto; 
+            
+        }
+
+        .encabezado {
+            display: flex !important;
+            justify-content: space-between;
+            align-items: center;
+            color: rgb(7, 6, 6); /* Cambia el color del texto a blanco */
+            width: 98%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        .orden {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex !important;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            text-align: justify;
+        }
+        .conten_logo{
+            max-width: 150px;
+        }
+        .logo {
+            width: 100%
+        }
+        .vista {
+        list-style: none;
+        justify-content: space-between;
+            gap: 2rem;
+            float: left;
+            color: rgb(7, 7, 7); 
+        }
+
+
+        .productoss{
+            border: solid 1px ;
+            border-collapse: collapse;
+            width: 98%;
+            margin-bottom: 10px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .productoss td{
+            border: solid 1px ;
+            text-align: center;
+        }
+        .productoss th{
+            margin: 5px 2px;
+            border: solid 1px ;
+        }
+
+        table{
+            border-collapse: collapse;
+            width: 100%;
+            
+        }
+        #subir{
+            display: flex;
+        }
+        .emisor{
+            border: solid 1px ;
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .receptor{
+            border: solid 1px ;
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .impuesto {
+            margin-top: -130px;
+        }
+        /*Color de fondo de los titulos */
+
+
+        thead{
+            background-color: #2196f3;
+        }
+        table td{
+            
+            padding: 8px;
+
+        }
+        .impuestos td{
+            border: solid 1px;
+            text-align: center;
+            
+        }
+        .deducciones td{
+            border: solid 1px;
+        }
+        .deducciones th{
+            border: solid 1px;
+        }
+        /*tenfo que colocarle al td el width en cuanto a porsentaje colocarle a cada td su tamaño*/
+
+        .divicion2{
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            
+        }
+        #derecha{
+            display: grid;
+        }
+
+        .info{
+            width: 100%;
+        }
+
+        #fina1{
+            width: 100%;
+            margin: 15px 0 0 0;
+            
+        }
+
+        .vista{
+            text-align: right;
+        }
+
+        /*estilos del footer*/
+        .footer {
+            background-color: #2196f3;
+            text-align: center;
+            padding: 10px 0;
+            margin: 0px auto;
+            width: 98%;
+        }
+    </style>
+    
+    <title>Document</title>
+
+</head>
+<body >
+    <div class="factura">
+        <header class="encabezado">
+
+            <table class="info">
+                <tbody>
+                    <tr>
+                        <td><div class="conten_logo"><img src="{% static 'img/logo dayl.png' %}" alt="" class="logo"></div></td>
+                        
+                        <td id="derecha">
+                            <ul class="vista">
+                                <li>Numero de factura {{factura.id}} </li>
+                                <li>fecha de factura {{ factura.fecha_factura }} </li>
+                                {% if factura.fecha_vencimiento %}
+                                <li>fecha de vencimiento {{factura.fecha_vencimiento}}</li>
+                                {% endif %}
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </header>
+        <!--las dos tablas mas abajo del head-->
+        <table class="segunda">
+            <tbody>
+                <tr>
+                    <td>
+                        <table class="emisor">
+                            <thead>
+                                <tr >
+                                    <th colspan="2"  style=" border: solid 1px ">Datos del emisor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Razon social / Nombre :</td>
+                                    <td>Variedades Dayl </td>
+                                </tr>
+                                <tr>
+                                    <td>NIT</td>
+                                    <td>90005645</td>
+                                </tr>
+                                <tr>
+                                    <td>Direccion:</td>
+                                    <td>Centro</td>
+                                </tr>
+                                <tr>
+                                    <td>Telefono:</td>
+                                    <td>32424242323</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <!--la otra particion-->
+                    <td>
+                        <table class="receptor">
+                            <thead>
+                                <tr>
+                                    <th colspan="2"  style=" border: solid 1px ">Adquiriente</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Razon social / Nombre :</td>
+                                    <td style="width: 70%;">{{cliente.nombre}}</td>
+                                </tr>
+                                <tr>
+                                    <td>NIT</td>
+                                    <td>{{cliente.nit}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Direccion:</td>
+                                    <td>{{cliente.ciudad}} / {{cliente.tipo_via}} {{cliente.numero}} #{{cliente.complemento}} </td>
+                                </tr>
+                                <tr>
+                                    <td>Telefono:</td>
+                                    <td>{{cliente.telefono}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        
+
+        <table class="productoss">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Codigo</th>
+                    <th>Cant.</th>
+                    <th>Descripcion</th>
+                    <th>Valor uni.</th>
+                    <th>Tipo impuesto</th>
+                    <th>% impuesto</th>
+                    <th>Total de impuesto</th>
+                    <th>Descuento</th>
+                    <th>Valor total</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for key,p in productos %}
+                    
+                    
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{p.producto_id}}</td>
+                        <td>{{p.cantidad}}</td>
+                        <td>{{p.nombre}}-{{p.color_id}}</td>
+                        <td>{{p.precio}}</td>
+                        <td>Iva</td>
+                        <td>{{p.iva}}</td>
+                        <td>{% calcular_total_impuesto p.precio p.iva %}</td>
+                        <td>{{p.oferta}}</td>
+                        <td>{{p.acumulado}}</td>
+                    </tr>
+                    
+                        
+                {% endfor %}
+                    
+               
+            </tbody>
+        </table> <br>
+        <!--terminar de colocar las demas tablas y asi colocarlas donde deben y mejorqar un poco mas los estilos tener en centa que todo debe ir con clases propias para no tener errores-->
+
+        <!--la otra tabla para divir y que queden en susu respectivos lads jajaj-->
+        <table>
+            <tbody>
+                <tr>
+                    <td id="subir">
+                        <table class="impuestos"  style=" border: solid 1px ">
+                            <thead>
+                                <tr>
+                                    <th>retencion en la fuente</th>
+                                    <th>Valor porcentaje</th>
+                                    <th>Importe</th>
+                                </tr>
+                            </thead>
+                            <tbody >
+                                <tr >
+                                    <td >----</td>
+                                    <td>----</td>
+                                    <td>----</td>
+                                </tr>
+                            </tbody>
+                        </table> 
+                    </td>
+                    <td>
+                        <table class="deducciones">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody >
+                                <tr>
+                                    <td>Total base disponible:</td>
+                                    <td>{% total_antes_iva productos %}</td>
+                                </tr>
+                                <tr>
+                                    <td>Iva: </td>
+                                    <td> {{ productos|iva_total }} </td>
+                                </tr>
+                                <tr>
+                                    <td>ICA: </td>
+                                    <td>------</td>
+                                </tr>
+                                <tr>
+                                    <td>Total retencion:</td>
+                                    <td>------</td>
+                                </tr>
+                                <tr>
+                                    <td>Total Impuestos:</td>
+                                    <td>{{ productos|iva_total }} </td>
+                                </tr> 
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td >total: </td>
+                                    <td>{{factura.total}} </td>
+                                </tr>
+                                
+                            </tfoot>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <footer>
+            <div class="footer">        
+                    <p>Formulario de autorizacion y numeracion {{factura.id}} de la fecha {{factura.fecha_factura}}  </p>
+            </div>
+        </footer>
+        
+    </div>
+    <script>
+        generarYGuardarPDF()
+        function generarYGuardarPDF() {
+            // Configuración de html2pdf.js
+            var opciones = {
+                margin: 10,
+                filename: 'documento.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'Letter', orientation: 'portrait' }
+            };
+    
+            // Selecciona el elemento HTML que deseas convertir a PDF
+            var elemento = document.body;
+    
+            // Llama a la función de html2pdf.js para generar y guardar el PDF
+            html2pdf(elemento, opciones);
+        }
+    </script>
+</body>
+</html>

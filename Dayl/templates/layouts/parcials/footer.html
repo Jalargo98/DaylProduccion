@@ -1,0 +1,37 @@
+{% load static %}
+<footer>
+        <div class="footer">
+            <div class="column-footer"></div>
+            <div>
+                <img src="{% static 'img/logo dayl.png' %}"><!--Aca va el logo de la empresa-->
+            </div>
+    
+            <div class="column-footer">
+                <a href="" class="sin-diseño"><h5>NUESTRA EMPRESA</h5></a>
+                <div class="center-links">
+                    <a href="#">Sobre Nososotros</a><!--aca va el hipervinculos de nuestra empresa-->
+                    <br>
+                    <a href="#">Términos y Condiciones</a><!--Aca van los terminos y condiciones-->
+                    <br>
+                    <a href="#">Politicas de Privacidad</a><!--aca va el hipervinculos de politicas de privacidad-->
+                </div>
+            </div>
+            <div class="column-footer out">
+                <a href="{% url 'product:producto_index' %}" class="sin-diseño"><h5>NUESTROS PRODUCTOS</h5></a>
+                <div class="center-links">
+                    {% for categoria in categorias %}
+                    <a href="{% url 'product:categorias' categoria %}">{{categoria.nombre}}</a><!--aca va el hipervinculo para ir a la vista de jugueteria-->
+                    <br>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="contact-container out">
+                <a href="" class="sin-diseño"><h5>CONTACTANOS</h5></a>
+                <a class="whatsapp-icon" href="https://wa.me/tunumerodewhatsapp"
+                    target="_blank"><!--Link del numero del wpp y clase del tamaño del icono-->
+                    <i class="whatsapp icon"></i><!--Icono de wpp-->
+                </a><!--Icono de wpp-->
+            </div>
+            <div class="column"></div>
+        </div>
+</footer>

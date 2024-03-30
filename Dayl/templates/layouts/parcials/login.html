@@ -1,0 +1,13 @@
+
+<div style="max-width: 300px; margin-left: auto;margin-right: auto;">
+    <form action="{% url 'cliente:login' %}" method="POST" class="ui form" id="login-form">
+        {% csrf_token %}
+        <div class="field"><label>Usuario</label><input type="text" name="email" required></div>
+        <div class="field"><label>Contraseña</label><input type="password" name="password" required></div>
+    </form>
+</div>
+{% if messages %}
+    {% for message in messages %}
+    {{message|safe}}
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,64 @@
+{% extends "admin/layouts/partials/base.html" %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'admin/css/tablas_sub.css' %}">
+{% endblock head %}
+{% block container %}
+<div class="table-container" id="contenedor_subcategoria">
+    <table>
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>Nombre</th>
+          <th>Categoria</th>
+          <th>Editar o borrar</th>
+        </tr>
+      </thead>
+      {% if categorias %}
+      <tbody>
+        {% for subcategoria in subcategorias %}
+        <tr class="subcategoria_tabla" data-subcategoria-id="{{ subcategoria.id }}">
+            <td>{{ subcategoria.id }}</td>
+            <td>{{ subcategoria.nombre }}</td>
+            <td>{{ subcategoria.categoria.nombre }}</td>
+            <td><i class="pencil alternate icon"></i><a href="{% url 'admin:subcategoria_eliminar' subcategoria.id %}"><i class="trash icon"></i></a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      {% endif %}
+    </table>
+</div>
+<div id="boton_registro_producto">
+    <button id="registro_producto" class="ui blue button">Registrar categoria</button>
+</div>
+<div id="producto-form" class="form-container" style="display: none;">
+    <form class="ui form" method="POST" action="{% url 'admin:subcategoria_registro' %}">
+        {% csrf_token %}
+        <h2 class="ui header">Subcategoria</h2>
+        <hr>
+        <div class="field">
+            <div class="two fields">
+                <div class="field">
+                    <label>Nombre</label>
+                    <input type="text" name="nombre" placeholder="Nombre" required oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="20">
+                </div>
+                <div class="field">
+                    <label>Categoria</label>
+                    <select class="ui dropdown" name="categoria" required>
+                        <option value="" disabled {% if subcategoria.id %}{% else %}selected{% endif %}>Selecciona la categoria</option>
+                        {% for categoria in categorias %}
+                        <option value="{{ categoria.id }}" {% if subcategoria.categoria.id == categoria.id %}selected{% endif %}>{{ categoria.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="ui black button" type="submit">Guardar</button>  
+        </div>
+    </form>
+</div>
+{% endblock container %}
+{% block script %}
+<script src="{% static 'admin/js/subcategoria.js' %}"></script>
+{% endblock script %}

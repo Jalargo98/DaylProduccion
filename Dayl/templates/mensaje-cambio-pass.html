@@ -1,0 +1,73 @@
+{% extends "layouts/base.html" %}
+
+{% block head %}
+<style>
+    body{
+        background-color: #ffffff;
+    }
+    .contenedor-reset{
+        width: 30%;
+        margin: 10px auto;
+        margin-top: 80px;
+        margin-bottom: 40px;
+        text-align: center;
+        background: #fffeff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 2.5px 5px 5px rgba(0, 0, 0, 0.4);
+    }
+    h1{
+        color: #13afef;
+    }
+    input{
+        background: #f6f6f9 !important;
+    }
+    .center-input{
+        align-items: center;
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        margin-bottom: 20px;
+        min-width: 200px;
+    }
+    .boton-bajar{
+        
+        text-align: center;
+    }
+    #button-estilo{
+        box-shadow: none !important;
+        color: #fff;
+        font-family: 'Montserrat', sans-serif !important;
+        font-size: 1rem;
+        background: #f2f2f7 !important;
+    }
+    #button-estilo:hover {
+        background-color: #13afef !important;
+        cursor: pointer ;
+        color: #ffffff !important;
+        border-style: none !important;  
+        
+    }
+    
+    .ui.form {
+        background-color: #fffeff ;
+    }
+    
+</style>
+{% endblock head %}
+    
+{% block content %}
+  
+    <div class="contenedor-reset">
+        <h1>Restablecimiento de contraseña enviado</h1> <br>
+        <p>Le enviamos instrucciones por correo electrónico para configurar su contraseña, si existe una cuenta con el correo electrónico que ingresó. Debería recibirlos en breve. <br>
+        Si no recibe un correo electrónico, asegúrese de haber ingresado la dirección con la que seregistró y verifique su carpeta de correo no deseado.
+        </p>
+        <div class="boton-bajar">
+            <button type="submit" class="ui black basic button" id="button-estilo" ><a href="{% url 'index' %}">Inicio de la pagina</a></button>   
+        </div>  
+        
+    </div>
+    
+{% endblock content %}

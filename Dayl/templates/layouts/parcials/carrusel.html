@@ -1,0 +1,26 @@
+{% load static %}
+{% load custom_filters %}
+    <div class="container-carrusel">
+        <div class="swiper">
+          <div class="swiper-wrapper">
+            {% for producto in productos %}
+                {% if producto.oferta >= 5 %}
+                <div class="swiper-slide"><!--la cantidad de de imagenes que se vayan a mostrar, lo que ustedes consideren-->
+                    <a href="{% url 'product:producto' producto.nombre producto.id %}"><img src="{% with producto.color_set.first as primera_imagen %}
+                        {% if primera_imagen %}
+                            {{ primera_imagen.imagen.url }}
+                        {% endif %}
+                    {% endwith %}" class="swiper-image"></a><!--link de las imagenes--> 
+                    <div class="price-overlay">${% calcular_precio_oferta_iva producto.precio producto.porcentaje_iva producto.oferta as precioFinal %}{{precioFinal}}</div><!--precio-->
+                  </div>
+                {% endif %}
+            {% endfor %}
+          </div>
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+      </div>
+
+    <script src="{% static 'js/swiper.js' %}"></script>
+    <script src="{% static 'js/carrusel.js' %}"></script>

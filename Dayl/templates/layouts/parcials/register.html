@@ -1,0 +1,248 @@
+ <!-- Selector de tipo de persona -->
+ <div id="question-section" class="input-box center">
+    <label for="person-type">Selecciona el tipo de persona:</label>
+    <select id="person-type" onchange="toggleForm()">
+        <option value="" selected>Seleccionar</option>
+        <option value="juridica">Jurídica</option>
+        <option value="natural">Natural</option>
+    </select><br>
+    {% if messages %}
+      <ul>
+        {% for message in messages %}
+          <li>{{message}}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+</div>
+<!-- Modul de persona >Natural< -->
+<div id="natural-form"  style="display: none; margin-top: 15px;">
+    <form class="ui form" id="registro-form-natural" method="POST" action="{% url 'cliente:probando' %}">
+        {% csrf_token %}
+        <h4 class="ui dividing header">Información de Contacto</h4>
+        <div class="field">
+        <div class="fields">
+            <div class="nine wide field">
+                <label>Nombre completo</label>
+                <input type="text" name="nombre" placeholder="Nombre Completo" required>
+            </div>
+            <div class="seven wide field">
+                <label>Numero de celular</label>
+                <input type="text" name="telefono" placeholder="Telefono Celular" required>
+            </div>
+        </div>
+        </div>
+        <div class="field">
+        <div class="fields">
+            <div class="three wide field">
+                <label>Departamento</label>
+                <select class="ui fluid dropdown" name="departamento" required>
+                    <option value="" disabled>Escoge un departamento</option>
+                    <option value="AMZ">Amazonas</option>
+                    <option value="ANT">Antioquia</option>
+                    <option value="ARA">Arauca</option>
+                    <option value="ATL">Atlántico</option>
+                    <option value="BOL">Bolívar</option>
+                    <option value="BOY">Boyacá</option>
+                    <option value="CAL">Caldas</option>
+                    <option value="CAQ">Caquetá</option>
+                    <option value="CAS">Casanare</option>
+                    <option value="CAU">Cauca</option>
+                    <option value="CES">Cesar</option>
+                    <option value="CHO">Chocó</option>
+                    <option value="COR">Córdoba</option>
+                    <option value="CUN">Cundinamarca</option>
+                    <option value="GUA">Guainía</option>
+                    <option value="GUV">Guaviare</option>
+                    <option value="HUI">Huila</option>
+                    <option value="GUA">Guajira</option>
+                    <option value="MAG">Magdalena</option>
+                    <option value="MET">Meta</option>
+                    <option value="NAR">Nariño</option>
+                    <option value="NDS">Norte de Santander</option>
+                    <option value="PUT">Putumayo</option>
+                    <option value="QUI">Quindío</option>
+                    <option value="RIS">Risaralda</option>
+                    <option value="SAP">San Andrés y Providencia</option>
+                    <option value="SAN">Santander</option>
+                    <option value="SUC">Sucre</option>
+                    <option value="TOL">Tolima</option>
+                    <option value="VAC">Valle del Cauca</option>
+                    <option value="VAU">Vaupés</option>
+                    <option value="VID">Vichada</option>              
+                </select>
+            </div>
+            <div class="three wide field">
+                <label>Ciudad</label>
+                <input type="text" name="ciudad" placeholder="Ciudad" required>
+            </div>
+            <div class="four fields">
+                <div class="field">
+                    <label>Tipo via</label>
+                    <select name="tipo_via" required>
+                        <option value="CRR" selected>Carrera</option>
+                        <option value="CLL">Calle</option>
+                        <option value="AV">Avenida</option>
+                        <option value="DG">Diagonal</option>
+                        <option value="TV">Transversal</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Numero via</label>
+                    <input type="text" name="numero" required>
+                </div>
+                <div class="field">
+                    <label>Numero de casa</label><input type="text" name="complemento" required>
+                </div>
+                <div class="field">
+                    <label>Numero de Apto</label><input type="text" name="casa_apto">
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="field">
+            <label>Detalles de la dirección</label><textarea name="descripcion" cols="30" rows="6" style="resize: none;"></textarea>
+        </div>
+        <div class="field">
+            <label>Correo electrónico</label>
+            <input type="email" name="correo_electronico" required>
+        </div>
+        <div class="field">
+            <div class="fields">
+                <div class="eight wide field">
+                    <label for="">Contraseña</label>
+                    <input type="password" name="contraseña" required>
+                </div>
+                <div class="eight wide field">
+                    <label for="">Confirmar contraseña</label>
+                    <input type="password" name="confirm_password"  required>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <div class="ui toggle checkbox">
+                <input type="checkbox" name="public" required>
+                <label>Acepto los terminos y condiciones</label>
+            </div>
+        </div>
+        <input type="hidden" name="tipo_persona" value="Natural">
+    </form>
+</div>
+<!-- Modul de persona >Juridica< -->
+<div id="juridica-form" style="display: none; margin-top: 15px;">
+    
+    <form class="ui form" id="registro-form-juridica" method="POST" action="{% url 'cliente:probando' %}">
+        {% csrf_token %}
+        <h4 class="ui dividing header">Información de Contacto</h4>
+        <div class="field">
+        <div class="fields">
+            <div class="nine wide field">
+                <label>Nombre completo</label>
+                <input type="text" name="nombre" placeholder="Nombre Completo" required>
+            </div>
+            <div class="seven wide field">
+                <label>Numero de celular</label>
+                <input type="text" name="telefono" placeholder="Telefono Celular" required>
+            </div>
+        </div>
+        </div>
+        <div class="field">
+        <div class="fields">
+            <div class="three wide field">
+                <label>Departamento</label>
+                <select class="ui fluid dropdown" name="departamento" required>
+                    <option value="" disabled>Escoge un departamento</option>
+                    <option value="AMZ">Amazonas</option>
+                    <option value="ANT">Antioquia</option>
+                    <option value="ARA">Arauca</option>
+                    <option value="ATL">Atlántico</option>
+                    <option value="BOL">Bolívar</option>
+                    <option value="BOY">Boyacá</option>
+                    <option value="CAL">Caldas</option>
+                    <option value="CAQ">Caquetá</option>
+                    <option value="CAS">Casanare</option>
+                    <option value="CAU">Cauca</option>
+                    <option value="CES">Cesar</option>
+                    <option value="CHO">Chocó</option>
+                    <option value="COR">Córdoba</option>
+                    <option value="CUN">Cundinamarca</option>
+                    <option value="GUA">Guainía</option>
+                    <option value="GUV">Guaviare</option>
+                    <option value="HUI">Huila</option>
+                    <option value="GUA">Guajira</option>
+                    <option value="MAG">Magdalena</option>
+                    <option value="MET">Meta</option>
+                    <option value="NAR">Nariño</option>
+                    <option value="NDS">Norte de Santander</option>
+                    <option value="PUT">Putumayo</option>
+                    <option value="QUI">Quindío</option>
+                    <option value="RIS">Risaralda</option>
+                    <option value="SAP">San Andrés y Providencia</option>
+                    <option value="SAN">Santander</option>
+                    <option value="SUC">Sucre</option>
+                    <option value="TOL">Tolima</option>
+                    <option value="VAC">Valle del Cauca</option>
+                    <option value="VAU">Vaupés</option>
+                    <option value="VID">Vichada</option>              
+                </select>
+            </div>
+            <div class="three wide field">
+                <label>Ciudad</label>
+                <input type="text" name="ciudad" placeholder="Ciudad" required>
+            </div>
+            <div class="four fields">
+                <div class="field">
+                    <label>Tipo via</label>
+                    <select name="tipo_via" required>
+                        <option value="CRR" selected>Carrera</option>
+                        <option value="CLL">Calle</option>
+                        <option value="AV">Avenida</option>
+                        <option value="DG">Diagonal</option>
+                        <option value="TV">Transversal</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Numero via</label>
+                    <input type="text" name="numero" required>
+                </div>
+                <div class="field">
+                    <label>Numero de casa</label><input type="text" name="complemento" required>
+                </div>
+                <div class="field">
+                    <label>Numero de Apto</label><input type="text" name="casa_apto">
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="field">
+            <label>Detalles de la dirección</label><textarea name="descripcion" cols="30" rows="4" style="resize: none;"></textarea>
+        </div>
+        <div class="field">
+            <label>Nit</label>
+            <input type="text" name="nit" required>
+        </div>
+        <div class="field">
+            <label>Correo electrónico</label>
+            <input type="email" name="correo_electronico" required>
+        </div>
+        <div class="field">
+            <div class="fields">
+                <div class="eight wide field">
+                    <label for="">Contraseña</label>
+                    <input type="password" name="contraseña" required>
+                </div>
+                <div class="eight wide field">
+                    <label for="">Confirmar contraseña</label>
+                    <input type="password" name="confirm_password" required>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <div class="ui toggle checkbox">
+                <input type="checkbox" name="public" required>
+                <label>Acepto los terminos y condiciones</label>
+            </div>
+        </div>
+        <input type="hidden" name="tipo_persona" value="Juridica">
+    </form>
+</div>
+

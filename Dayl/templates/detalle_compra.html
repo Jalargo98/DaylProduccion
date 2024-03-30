@@ -1,0 +1,99 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="detalle-compra">
+  <div class="ui stackable two column grid">
+    <div class="column menu izquierda">
+      <h2 class="ui header header-menu">Pago seguro</h2>
+      <form action="" method="POST" class="ui form">
+        {% csrf_token %}
+        <div class="two fields">
+          <div class="field"><label>Nombre</label><input type="text" name="" disabled value="{{ user.first_name }}">
+          </div>
+          <div class="field"><label>Apellido</label><input type="text" name="" disabled value="{{ user.last_name }}">
+          </div>
+        </div>
+        <div class="field">
+          <label for="">Nombre / Razón Social</label>
+          <input type="text" name="" disabled value="{{ cliente.nombre }}">
+        </div>
+        <div class="field">
+          <label for="">Pais / Región</label>
+          <input type="text" name="" disabled value="Colombia">
+        </div>
+        <div class="four fields">
+          <div class="field">
+            <label>Tipo via</label>
+            <select name="tipo_via" required disabled value="">
+              <option value="CRR" {% if cliente.tipo_via == 'CRR' %}selected{% endif %}>Carrera</option>
+              <option value="CLL" {% if cliente.tipo_via == 'CLL' %}selected{% endif %}>Calle</option>
+              <option value="AV" {% if cliente.tipo_via == 'AV' %}selected{% endif %}>Avenida</option>
+              <option value="DG" {% if cliente.tipo_via == 'DG' %}selected{% endif %}>Diagonal</option>
+              <option value="TV" {% if cliente.tipo_via == 'TV' %}selected{% endif %}>Transversal</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Numero via</label>
+            <input type="text" name="numero" required disabled value="{{ cliente.numero }}">
+          </div>
+          <div class="field">
+            <label>Numero de casa</label>
+            <input type="text" name="complemento" required disabled value="{{ cliente.complemento }}">
+          </div>
+          <div class="field">
+            <label>Numero de Apto</label>
+            <input type="text" name="casa_apto" disabled value="{{ cliente.casa_apto }}">
+          </div>
+        </div>
+        <div class="field">
+          <label for="">Detalles de la dirección</label>
+          <input type="text" name="" value="{{ cliente.descripcion }}">
+        </div>
+
+        <div class="three fields">
+          <div class="field">
+            <label for="">Metodo de pago</label>
+            <select name="metodo_pago" id="" value="">
+              {% for metodo in metodos %}
+              <option value="{{ metodo.id }}" {% if forloop.counter == 1 %}selected{% endif %}>{{ metodo.nombre }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="field">
+            <label for="">Telefono</label>
+            <input type="text" name="" disabled value="{{ cliente.telefono }}">
+          </div>
+        </div>
+        {% if request.session.carrito.items %}
+          <button class="ui black button">Realizar compra</button>
+        {% endif %}
+        
+      </form>
+    </div>
+    <div class="column menu derecha">
+      <h2 class="ui header header-menu">Detalle de productos</h2>
+      <table class="ui unstackable table tabla-detalle-compra">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th class="right aligned">V. Unitario</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for key,value in request.session.carrito.items %}
+            <tr>
+              <td>{{ value.nombre|mayus_inicial }}</td>
+              <td>{{ value.cantidad }}</td>
+              <td class="right aligned">{{ value.acumulado }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
